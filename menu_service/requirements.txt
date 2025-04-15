@@ -1,0 +1,6 @@
+Flask
+flask-cors
+pika
+Werkzeug
+pandas 
+openpyxl

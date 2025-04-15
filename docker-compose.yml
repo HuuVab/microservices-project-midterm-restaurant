@@ -1,0 +1,221 @@
+version: '3.8'
+
+services:
+  # API Gateway - Central entry point for all services
+  api_gateway:
+    build: ./api_gateway
+    ports:
+      - "5000:5000"
+    environment:
+      - MENU_SERVICE_URL=http://menu_service:5001
+      - ORDER_SERVICE_URL=http://order_service:5002
+      - USER_SERVICE_URL=http://user_service:5003
+      - PAYMENT_SERVICE_URL=http://payment_service:5004
+      - NOTIFICATION_SERVICE_URL=http://notification_service:5005
+      - CHATBOT_SERVICE_URL=http://chatbot_service:5006
+      - TRANSLATION_SERVICE_URL=http://translation_service:5007
+      - REPORTING_SERVICE_URL=http://reporting_service:5008
+      - CONTENT_SERVICE_URL=http://content_service:5009
+      - RABBITMQ_HOST=rabbitmq
+      - JWT_SECRET=your-secret-key-here
+    volumes:
+      - ./api_gateway:/app
+      - ./static:/app/static
+      - ./templates:/app/templates
+      - ./common:/app/common
+      - ./uploads/promo:/app/uploads/promo
+      - ./uploads/menu:/app/static/images/menu
+    depends_on:
+      - menu_service
+      - order_service
+      - user_service
+      - payment_service
+      - notification_service
+      - rabbitmq
+    networks:
+      - restaurant-network
+
+  # Menu Service - Manages menu items, categories, and availability
+  menu_service:
+    build: ./menu_service
+    ports:
+      - "5001:5001"
+    environment:
+      - SERVICE_NAME=menu_service
+      - DATABASE_URL=sqlite:///menu.db
+      - RABBITMQ_HOST=rabbitmq
+      - UPLOAD_FOLDER=/app/static/images/menu
+    volumes:
+      - ./menu_service:/app
+      - menu_data:/app/data
+      - ./uploads/menu:/app/static/images/menu
+      - ./common:/app/common
+    networks:
+      - restaurant-network
+
+  # Order Service - Manages orders, order items, and order status
+  order_service:
+    build: ./order_service
+    ports:
+      - "5002:5002"
+    environment:
+      - SERVICE_NAME=order_service
+      - DATABASE_URL=sqlite:///orders.db
+      - RABBITMQ_HOST=rabbitmq
+      - MENU_SERVICE_URL=http://menu_service:5001
+    volumes:
+      - ./order_service:/app
+      - order_data:/app/data
+      - ./common:/app/common
+    depends_on:
+      - menu_service
+    networks:
+      - restaurant-network
+
+  # User Service - Handles authentication and authorization
+  user_service:
+    build: ./user_service
+    ports:
+      - "5003:5003"
+    environment:
+      - SERVICE_NAME=user_service
+      - DATABASE_URL=sqlite:///users.db
+      - RABBITMQ_HOST=rabbitmq
+      - JWT_SECRET=your-secret-key-here
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=060704
+    volumes:
+      - ./user_service:/app
+      - user_data:/app/data
+      - ./common:/app/common
+    networks:
+      - restaurant-network
+
+  # Payment Service - Handles payment processing
+  payment_service:
+    build: ./payment_service
+    ports:
+      - "5004:5004"
+    environment:
+      - SERVICE_NAME=payment_service
+      - DATABASE_URL=sqlite:///payments.db
+      - RABBITMQ_HOST=rabbitmq
+      - ORDER_SERVICE_URL=http://order_service:5002
+    volumes:
+      - ./payment_service:/app
+      - payment_data:/app/data
+      - ./common:/app/common
+    depends_on:
+      - order_service
+    networks:
+      - restaurant-network
+
+  # Notification Service - Real-time notification system using WebSockets
+  notification_service:
+    build: ./notification_service
+    ports:
+      - "5005:5005"
+    environment:
+      - SERVICE_NAME=notification_service
+      - RABBITMQ_HOST=rabbitmq
+    volumes:
+      - ./notification_service:/app
+      - ./common:/app/common
+    networks:
+      - restaurant-network
+
+  # Chatbot Service - RAG-based chatbot for customer assistance
+  chatbot_service:
+    build: ./chatbot_service
+    ports:
+      - "5006:5006"
+    environment:
+      - SERVICE_NAME=chatbot_service
+      - RABBITMQ_HOST=rabbitmq
+      - LLM_API_URL=http://host.docker.internal:1234/v1/chat/completions
+      - LLM_MODEL=deepseek-r1-distill-qwen-7b
+    volumes:
+      - ./chatbot_service:/app
+      - ./chatbot_service/documents:/app/documents
+      - chatbot_data:/app/data
+      - ./common:/app/common
+    networks:
+      - restaurant-network
+
+  # Translation Service - Handles multilingual content
+  translation_service:
+    build: ./translation_service
+    ports:
+      - "5007:5007"
+    environment:
+      - SERVICE_NAME=translation_service
+      - RABBITMQ_HOST=rabbitmq
+    volumes:
+      - ./translation_service:/app
+      - ./translation_service/translations:/app/translations
+      - ./translation_service/flags:/app/flags 
+      - ./common:/app/common
+    networks:
+      - restaurant-network
+
+  # Reporting Service - Handles analytics and reporting
+  reporting_service:
+    build: ./reporting_service
+    ports:
+      - "5008:5008"
+    environment:
+      - SERVICE_NAME=reporting_service
+      - RABBITMQ_HOST=rabbitmq
+      - ORDER_SERVICE_URL=http://order_service:5002
+      - MENU_SERVICE_URL=http://menu_service:5001
+    volumes:
+      - ./reporting_service:/app
+      - reporting_data:/app/data
+      - ./common:/app/common
+    depends_on:
+      - order_service
+      - menu_service
+    networks:
+      - restaurant-network
+
+  # Content Service - Manages promotional content and static assets
+  content_service:
+    build: ./content_service
+    ports:
+      - "5009:5009"
+    environment:
+      - SERVICE_NAME=content_service
+      - RABBITMQ_HOST=rabbitmq
+    volumes:
+      - ./content_service:/app
+      - ./uploads/promo:/app/uploads/promo
+      - ./common:/app/common
+    networks:
+      - restaurant-network
+
+  # RabbitMQ - Message broker for event-driven communication
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"   # AMQP port
+      - "15672:15672" # Management UI
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - restaurant-network
+
+networks:
+  restaurant-network:
+    driver: bridge
+
+volumes:
+  menu_data:
+  order_data:
+  user_data:
+  payment_data:
+  chatbot_data:
+  reporting_data:
+  rabbitmq_data:

@@ -1,0 +1,20 @@
+{
+  "en": {
+    "your_order": "Your Order",
+    "total": "Total",
+    "clear": "Clear",
+    "place_order": "Place Order",
+    "your_orders": "Your Orders",
+    "no_active_orders": "No active orders",
+    "add_to_order": "Add",
+    "welcome": "Welcome to our Restaurant",
+    "search_placeholder": "Search menu...",
+    "all_categories": "All Categories",
+    "appetizers": "Appetizers",
+    "side_dishes": "Side Dishes",
+    "main_courses": "Main Courses",
+    "beverages": "Beverages",
+    "desserts": "Desserts",
+    "add_notes": "Add notes..."
+  }
+}

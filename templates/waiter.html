@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waiter - Restaurant Order System</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Waiter Dashboard</h1>
+            <a href="/" class="back-link">Change Role</a>
+        </header>
+        
+        <div class="main-content">
+            <div class="orders-section">
+                <div class="filter-bar">
+                    <select id="status-filter">
+                        <option value="All">All Active Orders</option>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Ready">Ready</option>
+                        <option value="Delivered">Delivered</option>
+                    </select>
+                    <input type="text" id="search-orders" placeholder="Search orders...">
+                    <button id="refresh-orders" class="secondary-button">Refresh</button>
+                </div>
+                
+                <div id="orders-list" class="orders-list"></div>
+            </div>
+            
+            <div class="order-details-section">
+                <h2>Order Details</h2>
+                <div id="order-info" class="order-info">
+                    <p>Select an order to view details</p>
+                </div>
+                
+                <div id="order-items-list" class="order-items-list"></div>
+                
+                <div class="order-actions">
+                    <button id="mark-delivered" class="secondary-button" disabled>Mark as Delivered</button>
+                    <button id="mark-paid" class="primary-button" disabled>Mark as Paid</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Templates -->
+    <template id="order-card-template">
+        <div class="order-card">
+            <div class="order-header">
+                <h3 class="order-id"></h3>
+                <span class="order-status"></span>
+            </div>
+            <div class="order-body">
+                <div class="order-info-row">
+                    <span class="label">Table:</span>
+                    <span class="table-number"></span>
+                </div>
+                
+                <div class="order-info-row">
+                    <span class="label">Time:</span>
+                    <span class="order-time"></span>
+                </div>
+                <div class="order-info-row">
+                    <span class="label">Items:</span>
+                    <span class="items-count"></span>
+                </div>
+                <div class="order-info-row">
+                    <span class="label">Total:</span>
+                    <span class="order-amount"></span>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <template id="detail-item-template">
+        <div class="detail-item">
+            <div class="item-info">
+                <div class="item-name-quantity">
+                    <span class="item-quantity"></span>× <span class="item-name"></span>
+                </div>
+                <div class="item-notes"></div>
+            </div>
+            <div class="item-status"></div>
+        </div>
+    </template>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="/static/js/waiter.js"></script>
+</body>
+</html>

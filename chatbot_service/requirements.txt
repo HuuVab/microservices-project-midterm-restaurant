@@ -1,0 +1,8 @@
+Flask
+flask-cors
+Werkzeug
+pika
+requests
+nltk
+scikit-learn
+numpy

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saigon Nouveau Menu</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/language-switcher.css">
+
+    <style>
+        /* Add these CSS styles to the <style> section in customer.html */
+/* Out of Stock Overlay */
+.out-of-stock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: 10px;
+}
+
+.out-of-stock-label {
+    background-color: #e74c3c;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+    transform: rotate(-15deg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+body.dark-mode .out-of-stock-label {
+    background-color: #c0392b;
+}
+
+.menu-item {
+    position: relative;
+}
+
+/* Dark mode compatibility for out of stock items */
+body.dark-mode .out-of-stock-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+/* Style for the best seller badge */
+.best-seller-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(243, 156, 18, 0.9);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    display: none; /* Hidden by default, will be shown with JS */
+}
+
+.best-seller-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+}
+
+/* Style for price container with discounts */
+.item-price-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.item-original-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 8px;
+    display: none; /* Hidden by default, will be shown when discounted */
+}
+
+.item-price {
+    font-weight: bold;
+    color: #e74c3c;
+}
+
+/* Style for discount badge */
+.discount-badge {
+    background-color: #e74c3c;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 8px;
+    display: none; /* Hidden by default, will be shown when discounted */
+}
+
+/* Position the menu item image relatively so we can position the badge */
+.menu-item-image {
+    position: relative;
+    height: 140px;
+    overflow: hidden;
+}
+
+/* Ensure dark mode compatibility */
+body.dark-mode .item-original-price {
+    color: #777;
+}
+        /* Reset some base styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+        }
+        .dark-mode-button {
+        background: transparent;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+    }
+    
+    .dark-mode-button:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .light-icon, .dark-icon {
+        position: absolute;
+        transition: opacity 0.3s, transform 0.3s;
+    }
+    
+    body:not(.dark-mode) .dark-icon {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    
+    body.dark-mode .light-icon {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    
+    /* Fix for menu items in light mode */
+    body:not(.dark-mode) .menu-item {
+        background-color: white;
+        color: #333;
+        border: 1px solid #eee;
+    }
+    
+    body:not(.dark-mode) .menu-item-details h3 {
+        color: #333;
+    }
+    
+    body:not(.dark-mode) .menu-item-details p {
+        color: #666;
+    }
+    
+    body:not(.dark-mode) .quantity-input {
+        background-color: white;
+        color: #333;
+    }
+    
+    body:not(.dark-mode) .quantity-decrease, 
+    body:not(.dark-mode) .quantity-increase {
+        background-color: #eee;
+        color: #333;
+    }
+        /* Header styles */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #2c2c2c;
+            color: white;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        /* Light mode header */
+        body:not(.dark-mode) .header-container {
+            background-color: #3498db; /* Light blue header for light mode */
+            color: white;
+        }
+        .title {
+            color: white;
+            margin: 0;
+            font-size: 20px;
+        }
+        body:not(.dark-mode) .header-container {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Main content layout */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+        }
+        
+        /* Promo banner - Now just an image */
+        .promo-banner {
+            width: 100%;
+            height: auto;
+            min-height: 200px;
+            margin: 15px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #promo-banner-img {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* For better display on mobile devices */
+        @media (max-width: 768px) {
+            .promo-banner {
+                min-height: 120px;
+            }
+        }
+        
+        /* Search bar */
+        .search-container {
+            padding: 0 15px;
+            margin-bottom: 15px;
+        }
+        
+        .search-bar {
+            position: relative;
+            width: 100%;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        #search-menu {
+            width: 100%;
+            padding: 10px 10px 10px 35px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: #fff;
+        }
+        
+        /* Category tabs */
+        .category-tabs {
+            display: flex;
+            overflow-x: auto;
+            padding: 0 15px;
+            margin-bottom: 15px;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        .category-tabs::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        
+        .category-tab {
+            padding: 8px 15px;
+            margin-right: 8px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .category-tab.active {
+            background-color: #3498db;
+        }
+        
+        /* Menu grid */
+        .menu-section {
+            flex: 1;
+            padding: 0;
+            box-shadow: none;
+            background: transparent;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            padding: 0 15px;
+        }
+        
+        .menu-item {
+            background-color: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            border: none;
+        }
+        
+        .menu-item-image {
+            height: 140px;
+        }
+        
+        .menu-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .menu-item-details {
+            padding: 10px;
+            flex-grow: 1;
+            color: white;
+        }
+        
+        .menu-item-details h3 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: white;
+        }
+        
+        .menu-item-details p {
+            margin: 0 0 10px 0;
+            font-size: 13px;
+            color: #ccc;
+        }
+        
+        .item-price {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-top: 5px;
+        }
+        
+        .menu-item-actions {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #444;
+        }
+        
+        /* Quantity controls */
+        .quantity-control {
+            display: flex;
+            align-items: center;
+        }
+        
+        .quantity-decrease, .quantity-increase {
+            width: 28px;
+            height: 28px;
+            background-color: #444;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .quantity-input {
+            width: 30px;
+            text-align: center;
+            margin: 0 5px;
+            border: none;
+            background-color: transparent;
+            color: white;
+        }
+        
+        .add-to-order-button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        /* Order section */
+        .order-section {
+            background-color: white;
+            border-radius: 10px;
+            margin: 15px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .order-section h2 {
+            margin-top: 0;
+        }
+        
+        .order-items {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .order-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .primary-button {
+            background-color: #2980b9;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        
+        .secondary-button {
+            background-color: #eee;
+            color: #333;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        /* Orders tracking */
+        .orders-tracking {
+            background-color: white;
+            border-radius: 10px;
+            margin: 15px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* Dark mode */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+        }
+        
+        body.dark-mode .order-section,
+        body.dark-mode .orders-tracking {
+            background-color: #2c2c2c;
+            color: white;
+        }
+        
+        body.dark-mode .order-item {
+            border-color: #444;
+        }
+        
+        body.dark-mode #search-menu {
+            background-color: #333;
+            color: white;
+            border-color: #444;
+        }
+        
+        body.dark-mode .secondary-button {
+            background-color: #444;
+            color: white;
+        }
+        
+        /* Hide original elements we're replacing */
+        .filter-bar {
+            display: none !important;
+        }
+        
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <div class="branding">
+                <h1 class="title">
+                    <span>Saigon Nouveau Menu</span>
+                    <span class="table-number">#<span id="table-number"></span></span>
+                </h1>
+            </div>
+            
+            <div class="utilities">
+                <!-- The language switcher will be dynamically inserted here by the JavaScript -->
+                <div class="dark-mode-container">
+                    <button id="dark-mode-toggle" class="dark-mode-button">
+                        <span class="light-icon">☀️</span>
+                        <span class="dark-icon">🌙</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <!-- Promotional Banner - Now just an image -->
+            <div class="promo-banner">
+                <img id="promo-banner-img" src="\static\images\promo\promo_1741972799_DALLE_2025-03-14_20.25.44_-_An_anime-style_promotional_banner_featuring_a_delicious_bowl_of_pho_and_a_crispy_banh_mi_sandwich._The_text_Discount_30_is_prominently_displayed_in.jpg" alt="Promotional Banner">
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-bar">
+                    <div class="search-icon">🔍</div>
+                    <input type="text" id="search-menu" placeholder="Search menu..." data-i18n-placeholder="search_placeholder">
+                </div>
+            </div>
+            
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="All" data-i18n="all_categories">All Categories</button>
+                <button class="category-tab" data-category="Appetizer" data-i18n="appetizers">Appetizers</button>
+                <button class="category-tab" data-category="Side-dish" data-i18n="side_dishes">Side Dishes</button>
+                <button class="category-tab" data-category="Main" data-i18n="main_courses">Main Courses</button>
+                <button class="category-tab" data-category="Beverage" data-i18n="beverages">Beverages</button>
+                <button class="category-tab" data-category="Dessert" data-i18n="desserts">Desserts</button>
+            </div>
+            
+            <!-- Keep original dropdown for JS compatibility but hide it -->
+            <div class="filter-bar">
+                <select id="category-filter">
+                    <option value="All">All Categories</option>
+                    <option value="Appetizer">Appetizers</option>
+                    <option value="Side-dish">Side-dish</option>
+                    <option value="Main">Main Courses</option>
+                    <option value="Beverage">Beverages</option>
+                    <option value="Dessert">Desserts</option>
+                </select>
+            </div>
+            
+            <!-- Menu Grid -->
+            <div class="menu-section">
+                <div id="menu-items" class="menu-grid"></div>
+            </div>
+            
+            <!-- Order Section -->
+            <div class="order-section">
+                <h2 data-i18n="your_order">Your Order</h2>
+                <div id="order-items" class="order-items"></div>
+                <div class="order-summary">
+                    <div class="total"><span data-i18n="total">Total:</span> <span id="order-total">$0.00</span></div>
+                    <div style="display: flex; margin-top: 10px;">
+                        <button id="clear-order" class="secondary-button" data-i18n="clear">Clear</button>
+                        <button id="submit-order" class="primary-button" data-i18n="place_order">Place Order</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Orders Tracking -->
+            <div class="orders-tracking">
+                <h2 data-i18n="your_orders">Your Orders</h2>
+                <div id="active-orders" class="active-orders">
+                    <div class="no-orders-message" data-i18n="no_active_orders">No active orders</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="clock-display">
+            <div id="current-date">Monday, Jan 1</div>
+            <div id="current-time">00:00:00</div>
+        </div>
+    </div>
+    
+    <!-- Templates -->
+    <template id="menu-item-template">
+        <div class="menu-item" data-id="">
+            <div class="menu-item-image">
+                <img src="" alt="" class="item-image">
+                <div class="best-seller-ribbon">
+                    <span class="thumb-icon"></span>
+                </div>
+            </div>
+            <div class="menu-item-details">
+                <h3 class="item-name"></h3>
+                <p class="item-description"></p>
+                <div class="item-price-container">
+                    <!-- Original price will be shown with strikethrough when discounted -->
+                    <span class="item-original-price"></span>
+                    <!-- Current price (after discount if applicable) -->
+                    <span class="item-price"></span>
+                    <!-- Discount badge will show conditionally -->
+                    <span class="discount-badge"></span>
+                </div>
+               
+            </div>
+            <div class="menu-item-actions">
+                <div class="quantity-control">
+                    <button class="quantity-decrease">-</button>
+                    <input type="number" class="quantity-input" value="1" min="1" max="10">
+                    <button class="quantity-increase">+</button>
+                </div>
+                <button class="add-to-order-button" data-i18n="add_to_order">Add</button>
+            </div>
+        </div>
+    </template>
+    
+    <template id="order-item-template">
+        <div class="order-item">
+            <div class="order-item-details">
+                <div class="item-name-quantity">
+                    <span class="item-quantity"></span>× <span class="item-name"></span>
+                </div>
+                <div class="item-notes-control">
+                    <input type="text" class="item-notes" placeholder="Add notes..." data-i18n-placeholder="add_notes">
+                </div>
+            </div>
+            <div class="order-item-price"></div>
+            <button class="remove-item-button">×</button>
+        </div>
+    </template>
+    
+    <template id="table-setup-template">
+        <div class="modal setup-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 data-i18n="device_setup">Device Setup</h3>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="table_assignment_msg">This device needs to be assigned to a table number.</p>
+                    <div class="form-group">
+                        <label for="setup-table-number" data-i18n="table_number">Table Number:</label>
+                        <input type="number" id="setup-table-number" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="setup-device-pin" data-i18n="setup_pin">Setup PIN:</label>
+                        <input type="password" id="setup-device-pin" required>
+                    </div>
+                    <button id="save-table-setup" class="primary-button" data-i18n="save_configuration">Save Configuration</button>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="/static/js/customer.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load the current promotional banner
+        fetchCurrentPromo();
+        
+        // Sync category tabs with the hidden dropdown
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const categoryFilter = document.getElementById('category-filter');
+        
+        if (categoryTabs && categoryFilter) {
+            // Initialize the active tab based on the dropdown
+            function updateActiveTabs() {
+                const selectedCategory = categoryFilter.value;
+                categoryTabs.forEach(tab => {
+                    const tabCategory = tab.getAttribute('data-category');
+                    tab.classList.toggle('active', tabCategory === selectedCategory);
+                });
+            }
+            
+            // Set initial state
+            updateActiveTabs();
+            
+            // Handle tab clicks
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    // Update the dropdown
+                    categoryFilter.value = category;
+                    
+                    // Trigger the change event on the dropdown
+                    const event = new Event('change');
+                    categoryFilter.dispatchEvent(event);
+                    
+                    // Update active tabs
+                    updateActiveTabs();
+                });
+            });
+            
+            // Listen for changes to the dropdown (from JS)
+            categoryFilter.addEventListener('change', updateActiveTabs);
+        }
+        
+        // Function to fetch the current promotional banner
+        function fetchCurrentPromo() {
+            fetch('/api/promo/current')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.image_path) {
+                        document.getElementById('promo-banner-img').src = data.image_path;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching promotional banner:', error);
+                    // Use default image if there's an error
+                    document.getElementById('promo-banner-img').src = '/static/images/promo/default_promo.jpg';
+                });
+        }
+        
+        // Listen for promo updates via socket
+        const socket = io();
+        socket.on('promo_updated', function() {
+            fetchCurrentPromo();
+        });
+    });
+    </script>
+    <script src="/static/js/translations.js"></script>
+</body>
+</html>

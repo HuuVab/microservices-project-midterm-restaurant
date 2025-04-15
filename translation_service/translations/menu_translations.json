@@ -1,0 +1,420 @@
+{
+  "items": {
+    "1": {
+      "name": {
+        "en": "Goi Cuon",
+        "vi": "Gỏi Cuốn",
+        "ko": "생 스프링롤",
+        "zh": "鲜虾猪肉米粉生春卷",
+        "fr": "Rouleaux de printemps frais"
+      },
+      "description": {
+        "en": "Fresh spring rolls with shrimp, pork, vermicelli noodles, lettuce, and herbs, served with peanut sauce",
+        "vi": "Gỏi cuốn tôm thịt với bún, xà lách, và rau thơm, dùng kèm sốt đậu phộng",
+        "ko": "새우, 돼지고기, 쌀국수, 상추, 허브를 넣은 생 스프링롤, 땅콩 소스 제공",
+        "zh": "鲜虾猪肉米粉生春卷配花生酱",
+        "fr": "Rouleaux de printemps frais aux crevettes, porc, vermicelles, laitue et herbes, servis avec sauce aux cacahuètes"
+      }
+    },
+    "2": {
+      "name": {
+        "en": "Cha Gio",
+        "vi": "Chả Giò",
+        "ko": "튀긴 스프링롤",
+        "zh": "酥脆炸春卷",
+        "fr": "Rouleaux de printemps frits croustillants"
+      },
+      "description": {
+        "en": "Crispy fried spring rolls with ground pork, wood ear mushrooms, and vegetables, served with dipping sauce",
+        "vi": "Chả giò thịt heo, nấm mèo, và rau củ, dùng kèm nước mắm",
+        "ko": "돼지고기, 목이버섯, 야채를 넣은 바삭한 튀긴 스프링롤, 딥핑 소스 제공",
+        "zh": "酥脆炸春卷（猪肉馅、木耳、蔬菜）配蘸料",
+        "fr": "Rouleaux de printemps frits croustillants au porc haché, champignons noirs et légumes, servis avec sauce trempette"
+      }
+    },
+    "3": {
+      "name": {
+        "en": "Banh Xeo",
+        "vi": "Bánh Xèo",
+        "ko": "짭짤한 팬케이크",
+        "zh": "酥脆咸煎饼",
+        "fr": "Crêpe salée croustillante"
+      },
+      "description": {
+        "en": "Crispy savory pancake with pork, shrimp, bean sprouts, and onions, served with fresh herbs and dipping sauce",
+        "vi": "Bánh xèo thịt heo, tôm, giá đỗ, và hành tây, dùng kèm rau thơm và nước mắm",
+        "ko": "돼지고기, 새우, 숙주나물, 양파를 넣은 바삭한 짭짤한 팬케이크, 신선한 허브와 딥핑 소스 제공",
+        "zh": "酥脆咸煎饼（猪肉、虾、豆芽、洋葱）配新鲜香草和蘸料",
+        "fr": "Crêpe salée croustillante au porc, crevettes, pousses de soja et oignons, servie avec herbes fraîches et sauce trempette"
+      }
+    },
+    "4": {
+      "name": {
+        "en": "Goi Du Du",
+        "vi": "Gỏi Đu Đủ",
+        "ko": "그린 파파야 샐러드",
+        "zh": "青木瓜沙拉",
+        "fr": "Salade de papaye verte"
+      },
+      "description": {
+        "en": "Green papaya salad with shrimp, herbs, peanuts, and spicy fish sauce dressing",
+        "vi": "Gỏi đu đủ với tôm, rau thơm, đậu phộng, và nước mắm cay",
+        "ko": "새우, 허브, 땅콩, 매운 피시 소스 드레싱을 곁들인 그린 파파야 샐러드",
+        "zh": "青木瓜沙拉配虾、香草、花生和辣鱼露调味汁",
+        "fr": "Salade de papaye verte aux crevettes, herbes, cacahuètes et vinaigrette épicée à la sauce de poisson"
+      }
+    },
+    "5": {
+      "name": {
+        "en": "Pho Bo Tai",
+        "vi": "Phở Bò Tái",
+        "ko": "소고기 국수 수프",
+        "zh": "传统牛肉河粉",
+        "fr": "Soupe traditionnelle de nouilles au bœuf"
+      },
+      "description": {
+        "en": "Traditional beef noodle soup with rare steak, rice noodles, and herbs in aromatic beef broth",
+        "vi": "Phở bò với thịt bò tái, bánh phở, và rau thơm trong nước dùng thơm ngon",
+        "ko": "레어 스테이크, 쌀국수, 향긋한 소고기 국물에 허브를 넣은 전통 소고기 국수 수프",
+        "zh": "传统牛肉河粉（配嫩牛肉片、米粉和香草）在香浓牛肉汤中",
+        "fr": "Soupe traditionnelle de nouilles au bœuf avec steak saignant, nouilles de riz et herbes dans un bouillon de bœuf aromatique"
+      }
+    },
+    "6": {
+      "name": {
+        "en": "Pho Ga",
+        "vi": "Phở Gà",
+        "ko": "닭고기 국수 수프",
+        "zh": "鸡肉河粉",
+        "fr": "Soupe de nouilles au poulet"
+      },
+      "description": {
+        "en": "Chicken noodle soup with tender chicken pieces, rice noodles, and herbs in flavorful chicken broth",
+        "vi": "Phở gà với thịt gà mềm, bánh phở, và rau thơm trong nước dùng gà đậm đà",
+        "ko": "부드러운 닭고기, 쌀국수, 풍미 있는 닭 국물에 허브를 넣은 닭고기 국수 수프",
+        "zh": "鸡肉河粉（嫩鸡肉、米粉和香草）在鲜美鸡汤中",
+        "fr": "Soupe de nouilles au poulet avec morceaux de poulet tendres, nouilles de riz et herbes dans un bouillon de poulet savoureux"
+      }
+    },
+    "7": {
+      "name": {
+        "en": "Pho Dac Biet",
+        "vi": "Phở Đặc Biệt",
+        "ko": "특별한 소고기 국수 수프",
+        "zh": "特色牛肉河粉",
+        "fr": "Soupe spéciale de nouilles au bœuf"
+      },
+      "description": {
+        "en": "Special beef noodle soup with rare steak, brisket, tendon, tripe, and meatballs",
+        "vi": "Phở đặc biệt với thịt bò tái, gầu, gân, sách, và bò viên",
+        "ko": "레어 스테이크, 양지, 힘줄, 양, 미트볼을 넣은 특별한 소고기 국수 수프",
+        "zh": "特色牛肉河粉（配嫩牛肉片、牛胸肉、牛筋、牛肚和牛肉丸）",
+        "fr": "Soupe spéciale de nouilles au bœuf avec steak saignant, poitrine, tendon, tripes et boulettes de viande"
+      }
+    },
+    "8": {
+      "name": {
+        "en": "Com Tam",
+        "vi": "Cơm Tấm",
+        "ko": "깨진 쌀",
+        "zh": "碎米饭",
+        "fr": "Riz brisé"
+      },
+      "description": {
+        "en": "Broken rice with grilled pork chop, egg meatloaf, shredded pork skin, and vegetables",
+        "vi": "Cơm tấm với sườn nướng, chả trứng, bì heo, và rau",
+        "ko": "구운 돼지 갈비, 계란 미트로프, 돼지고기 껍질, 야채를 곁들인 깨진 쌀",
+        "zh": "碎米饭配烤猪排、蛋肉饼、猪皮丝和蔬菜",
+        "fr": "Riz brisé avec côtelette de porc grillée, pain de viande aux œufs, peau de porc râpée et légumes"
+      }
+    },
+    "9": {
+      "name": {
+        "en": "Com Ga Xoi Mo",
+        "vi": "Cơm Gà Xối Mỡ",
+        "ko": "바삭한 껍질의 튀긴 닭고기",
+        "zh": "香脆皮炸鸡",
+        "fr": "Poulet frit à peau croustillante"
+      },
+      "description": {
+        "en": "Crispy-skin fried chicken with turmeric rice, cucumber, and tomato",
+        "vi": "Gà chiên da giòn với cơm nghệ, dưa chuột, và cà chua",
+        "ko": "강황 쌀, 오이, 토마토와 함께 제공되는 바삭한 껍질의 튀긴 닭고기",
+        "zh": "香脆皮炸鸡配姜黄米饭、黄瓜和番茄",
+        "fr": "Poulet frit à peau croustillante avec riz au curcuma, concombre et tomate"
+      }
+    },
+    "10": {
+      "name": {
+        "en": "Com Chien Duong Chau",
+        "vi": "Cơm Chiên Dương Châu",
+        "ko": "양저우 볶음밥",
+        "zh": "扬州炒饭",
+        "fr": "Riz frit de Yangzhou"
+      },
+      "description": {
+        "en": "Yangzhou fried rice with shrimp, BBQ pork, eggs, and mixed vegetables",
+        "vi": "Cơm chiên Dương Châu với tôm, thịt xá xíu, trứng, và rau củ xào",
+        "ko": "새우, 바베큐 돼지고기, 계란, 혼합 야채를 넣은 양저우 볶음밥",
+        "zh": "扬州炒饭（虾、叉烧肉、鸡蛋和什锦蔬菜）",
+        "fr": "Riz frit de Yangzhou aux crevettes, porc BBQ, œufs et légumes variés"
+      }
+    },
+    "11": {
+      "name": {
+        "en": "Bun Thit Nuong",
+        "vi": "Bún Thịt Nướng",
+        "ko": "쌀국수",
+        "zh": "米粉配烤猪肉",
+        "fr": "Vermicelles avec porc grillé"
+      },
+      "description": {
+        "en": "Vermicelli noodles with grilled pork, fresh herbs, bean sprouts, and fish sauce",
+        "vi": "Bún thịt nướng với rau thơm, giá đỗ, và nước mắm",
+        "ko": "구운 돼지고기, 신선한 허브, 숙주나물, 피시 소스를 곁들인 쌀국수",
+        "zh": "米粉配烤猪肉、新鲜香草、豆芽和鱼露",
+        "fr": "Vermicelles avec porc grillé, herbes fraîches, pousses de soja et sauce de poisson"
+      }
+    },
+    "12": {
+      "name": {
+        "en": "Bun Cha",
+        "vi": "Bún Chả",
+        "ko": "구운 돼지고기 패티와 슬라이스",
+        "zh": "烤猪肉饼和猪肉片",
+        "fr": "Galettes et tranches de porc grillées"
+      },
+      "description": {
+        "en": "Grilled pork patties and slices with vermicelli noodles, herbs, and dipping sauce",
+        "vi": "Nem nướng và thịt nướng với bún, rau thơm, và nước mắm",
+        "ko": "구운 돼지고기 패티와 슬라이스, 쌀국수, 허브, 딥핑 소스",
+        "zh": "烤猪肉饼和猪肉片配米粉、香草和蘸料",
+        "fr": "Galettes et tranches de porc grillées avec vermicelles, herbes et sauce trempette"
+      }
+    },
+    "13": {
+      "name": {
+        "en": "Bun Bo Hue",
+        "vi": "Bún Bò Huế",
+        "ko": "매운 소고기와 돼지고기 국수 수프",
+        "zh": "辣牛肉猪肉米粉汤",
+        "fr": "Soupe épicée de nouilles au bœuf et au porc"
+      },
+      "description": {
+        "en": "Spicy beef and pork noodle soup with lemongrass, fermented shrimp paste, and thick rice noodles",
+        "vi": "Bún bò Huế cay với sả, mắm tôm, và bánh phở dày",
+        "ko": "레몬그라스, 발효 새우 페이스트, 두꺼운 쌀국수를 넣은 매운 소고기와 돼지고기 국수 수프",
+        "zh": "辣牛肉猪肉米粉汤（配香茅、发酵虾酱和粗米粉）",
+        "fr": "Soupe épicée de nouilles au bœuf et au porc avec citronnelle, pâte de crevettes fermentée et nouilles de riz épaisses"
+      }
+    },
+    "14": {
+      "name": {
+        "en": "Banh Mi Thit Nguoi",
+        "vi": "Bánh Mì Thịt Nguội",
+        "ko": "베트남 샌드위치",
+        "zh": "越南法棍三明治",
+        "fr": "Sandwich vietnamien"
+      },
+      "description": {
+        "en": "Vietnamese sandwich with cold cuts, pâté, pickled vegetables, cilantro, and jalapeños on a French baguette",
+        "vi": "Bánh mì thịt nguội với patê, đồ chua, rau ngò, và ớt trên bánh mì Pháp",
+        "ko": "프랑스 바게트에 콜드 컷, 파테, 절인 야채, 고수, 할라페뇨를 넣은 베트남 샌드위치",
+        "zh": "越南法棍三明治（冷切肉、肝酱、腌制蔬菜、香菜和墨西哥辣椒）",
+        "fr": "Sandwich vietnamien avec charcuterie, pâté, légumes marinés, coriandre et jalapeños sur baguette française"
+      }
+    },
+    "15": {
+      "name": {
+        "en": "Banh Mi Ga Nuong",
+        "vi": "Bánh Mì Gà Nướng",
+        "ko": "구운 레몬그라스 치킨 베트남 샌드위치",
+        "zh": "香茅烤鸡越南法棍三明治",
+        "fr": "Sandwich vietnamien au poulet grillé"
+      },
+      "description": {
+        "en": "Vietnamese sandwich with grilled lemongrass chicken, pickled vegetables, and herbs",
+        "vi": "Bánh mì gà nướng sả với đồ chua và rau thơm",
+        "ko": "구운 레몬그라스 치킨, 절인 야채, 허브를 넣은 베트남 샌드위치",
+        "zh": "香茅烤鸡越南法棍三明治配腌制蔬菜和香草",
+        "fr": "Sandwich vietnamien au poulet grillé à la citronnelle, légumes marinés et herbes"
+      }
+    },
+    "16": {
+      "name": {
+        "en": "Banh Mi Chay",
+        "vi": "Bánh Mì Chay",
+        "ko": "베지테리안 베트남 샌드위치",
+        "zh": "素食越南法棍三明治",
+        "fr": "Sandwich vietnamien végétarien"
+      },
+      "description": {
+        "en": "Vegetarian Vietnamese sandwich with tofu, pickled vegetables, and herbs",
+        "vi": "Bánh mì chay với đậu hũ, đồ chua, và rau thơm",
+        "ko": "두부, 절인 야채, 허브를 넣은 베지테리안 베트남 샌드위치",
+        "zh": "素食越南法棍三明治（豆腐、腌制蔬菜和香草）",
+        "fr": "Sandwich vietnamien végétarien au tofu, légumes marinés et herbes"
+      }
+    },
+    "17": {
+      "name": {
+        "en": "Ca Phe Sua Da",
+        "vi": "Cà Phê Sữa Đá",
+        "ko": "베트남 아이스 커피",
+        "zh": "越南冰咖啡",
+        "fr": "Café glacé vietnamien"
+      },
+      "description": {
+        "en": "Vietnamese iced coffee with condensed milk",
+        "vi": "Cà phê sữa đá",
+        "ko": "연유를 넣은 베트남 아이스 커피",
+        "zh": "越南冰咖啡配炼乳",
+        "fr": "Café glacé vietnamien au lait condensé"
+      }
+    },
+    "18": {
+      "name": {
+        "en": "Sinh To Bo",
+        "vi": "Sinh Tố Bơ",
+        "ko": "아보카도 스무디",
+        "zh": "牛油果冰沙",
+        "fr": "Smoothie à l'avocat"
+      },
+      "description": {
+        "en": "Avocado smoothie with condensed milk",
+        "vi": "Sinh tố bơ với sữa đặc",
+        "ko": "연유를 넣은 아보카도 스무디",
+        "zh": "牛油果冰沙配炼乳",
+        "fr": "Smoothie à l'avocat avec lait condensé"
+      }
+    },
+    "19": {
+      "name": {
+        "en": "Nuoc Mia",
+        "vi": "Nước Mía",
+        "ko": "신선한 사탕수수 주스",
+        "zh": "新鲜甘蔗汁",
+        "fr": "Jus de canne à sucre frais"
+      },
+      "description": {
+        "en": "Fresh sugarcane juice with ice",
+        "vi": "Nước mía đá",
+        "ko": "얼음을 넣은 신선한 사탕수수 주스",
+        "zh": "新鲜甘蔗汁配冰",
+        "fr": "Jus de canne à sucre frais avec glace"
+      }
+    },
+    "20": {
+      "name": {
+        "en": "Tra Da",
+        "vi": "Trà Đá",
+        "ko": "베트남 아이스 티",
+        "zh": "越南冰茶",
+        "fr": "Thé glacé vietnamien"
+      },
+      "description": {
+        "en": "Vietnamese iced tea",
+        "vi": "Trà đá",
+        "ko": "베트남 아이스 티",
+        "zh": "越南冰茶",
+        "fr": "Thé glacé vietnamien"
+      }
+    },
+    "21": {
+      "name": {
+        "en": "Dau Hu Rang Muoi",
+        "vi": "Đậu Hũ Rang Muối",
+        "ko": "소금과 후추로 맛을 낸 두부",
+        "zh": "椒盐豆腐",
+        "fr": "Tofu au sel et au poivre"
+      },
+      "description": {
+        "en": "Salt and pepper tofu with chili and green onions",
+        "vi": "Đậu hũ rang muối tiêu với ớt và hành lá",
+        "ko": "칠리와 파를 곁들인 소금과 후추로 맛을 낸 두부",
+        "zh": "椒盐豆腐配辣椒和葱",
+        "fr": "Tofu au sel et au poivre avec piment et oignons verts"
+      }
+    },
+    "22": {
+      "name": {
+        "en": "Rau Muong Xao Toi",
+        "vi": "Rau Muống Xào Tỏi",
+        "ko": "마늘로 볶은 공심채",
+        "zh": "蒜炒空心菜",
+        "fr": "Liseron d'eau sauté à l'ail"
+      },
+      "description": {
+        "en": "Stir-fried water spinach with garlic",
+        "vi": "Rau muống xào tỏi",
+        "ko": "마늘로 볶은 공심채",
+        "zh": "蒜炒空心菜",
+        "fr": "Liseron d'eau sauté à l'ail"
+      }
+    },
+    "23": {
+      "name": {
+        "en": "Do Chua",
+        "vi": "Đồ Chua",
+        "ko": "절인 무와 당근",
+        "zh": "腌制白萝卜和胡萝卜",
+        "fr": "Radis daikon et carottes marinés"
+      },
+      "description": {
+        "en": "Pickled daikon radish and carrots",
+        "vi": "Đồ chua củ cải trắng và cà rốt",
+        "ko": "절인 무와 당근",
+        "zh": "腌制白萝卜和胡萝卜",
+        "fr": "Radis daikon et carottes marinés"
+      }
+    },
+    "24": {
+      "name": {
+        "en": "Che Ba Mau",
+        "vi": "Chè Ba Màu",
+        "ko": "삼색 콩 디저트",
+        "zh": "三色豆甜品",
+        "fr": "Dessert aux trois couleurs de haricots"
+      },
+      "description": {
+        "en": "Three-color bean dessert with coconut milk and crushed ice",
+        "vi": "Chè ba màu với nước cốt dừa và đá bào",
+        "ko": "코코넛 밀크와 으깬 얼음을 곁들인 삼색 콩 디저트",
+        "zh": "三色豆甜品配椰奶和碎冰",
+        "fr": "Dessert aux trois couleurs de haricots avec lait de coco et glace pilée"
+      }
+    },
+    "25": {
+      "name": {
+        "en": "Banh Flan",
+        "vi": "Bánh Flan",
+        "ko": "베트남식 카라멜 커스터드",
+        "zh": "越南焦糖布丁",
+        "fr": "Flan caramel vietnamien"
+      },
+      "description": {
+        "en": "Vietnamese caramel custard",
+        "vi": "Bánh flan caramel",
+        "ko": "베트남식 카라멜 커스터드",
+        "zh": "越南焦糖布丁",
+        "fr": "Flan caramel vietnamien"
+      }
+    },
+    "26": {
+      "name": {
+        "en": "Che Chuoi",
+        "vi": "Chè Chuối",
+        "ko": "바나나 타피오카 푸딩",
+        "zh": "香蕉西米露",
+        "fr": "Pouding de tapioca à la banane"
+      },
+      "description": {
+        "en": "Banana tapioca pudding with coconut milk",
+        "vi": "Chè chuối với bột báng và nước cốt dừa",
+        "ko": "코코넛 밀크를 넣은 바나나 타피오카 푸딩",
+        "zh": "香蕉西米露配椰奶",
+        "fr": "Pouding de tapioca à la banane au lait de coco"
+      }
+    }
+  }
+}

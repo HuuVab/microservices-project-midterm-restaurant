@@ -1,0 +1,7 @@
+Flask
+flask-cors
+Werkzeug
+requests
+PyJWT
+python-socketio
+eventlet

@@ -1,0 +1,116 @@
+/* Language Switcher Styles */
+.language-switcher {
+    position: relative;
+    display: inline-block;
+    margin-left: 15px;
+    z-index: 10;
+}
+
+.language-current {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.language-current:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.language-current img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 5px;
+    object-fit: cover;
+}
+
+.language-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+    z-index: 1000;
+    width: 150px;
+}
+
+.language-dropdown.active {
+    max-height: 300px;
+    opacity: 1;
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: white;
+}
+
+.language-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.language-option img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.language-option span {
+    font-size: 14px;
+}
+
+/* Light mode styles */
+body:not(.dark-mode) .language-dropdown {
+    background-color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+body:not(.dark-mode) .language-option {
+    color: #333;
+}
+
+body:not(.dark-mode) .language-option:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+body:not(.dark-mode) .language-current {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+body:not(.dark-mode) .language-current:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+/* Letter animation styles */
+.letter-shake {
+    animation: letterShake 0.8s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes letterShake {
+    0% { transform: translateX(0) rotate(0deg); filter: blur(0px); }
+    10% { transform: translateX(-7px) rotate(-4deg); filter: blur(3px); }
+    20% { transform: translateX(7px) rotate(4deg); filter: blur(5px); }
+    30% { transform: translateX(-8px) rotate(-5deg); filter: blur(7px); }
+    40% { transform: translateX(8px) rotate(5deg); filter: blur(8px); }
+    50% { transform: translateX(-7px) rotate(-4deg); filter: blur(7px); }
+    60% { transform: translateX(7px) rotate(4deg); filter: blur(5px); }
+    70% { transform: translateX(-5px) rotate(-3deg); filter: blur(4px); }
+    80% { transform: translateX(5px) rotate(3deg); filter: blur(3px); }
+    90% { transform: translateX(-3px) rotate(-1deg); filter: blur(1px); }
+    100% { transform: translateX(0) rotate(0deg); filter: blur(0px); }
+}

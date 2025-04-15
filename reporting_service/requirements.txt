@@ -1,0 +1,9 @@
+Flask
+flask-cors
+Werkzeug
+pika
+requests
+numpy
+pandas
+openpyxl
+reportlab

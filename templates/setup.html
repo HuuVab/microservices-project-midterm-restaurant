@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Device Setup</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <style>
+        .setup-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .setup-form {
+            margin-top: 20px;
+        }
+        
+        .success-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #d4edda;
+            color: #155724;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="setup-container">
+        <div class="logo">Table Device Setup</div>
+        
+        <p>This page is used to configure this device as a table ordering tablet. Admin access is required.</p>
+        
+        <div class="setup-form">
+            <div class="form-group">
+                <label for="setup-table-number">Table Number:</label>
+                <input type="number" id="setup-table-number" min="1" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="setup-admin-pin">Admin PIN:</label>
+                <input type="password" id="setup-admin-pin" required>
+            </div>
+            
+            <button id="save-setup" class="primary-button">Save Configuration</button>
+        </div>
+        
+        <div id="success-message" class="success-message">
+            <p>Configuration saved successfully! This device is now assigned to <span id="configured-table"></span>.</p>
+            <p>You will be redirected to the ordering interface in <span id="countdown">5</span> seconds...</p>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('save-setup').addEventListener('click', function() {
+            const tableNumber = document.getElementById('setup-table-number').value;
+            const adminPin = document.getElementById('setup-admin-pin').value;
+            
+            if (!tableNumber) {
+                alert('Please enter a table number');
+                return;
+            }
+            
+            if (adminPin !== '0000') { // Replace with your actual admin PIN
+                alert('Invalid admin PIN');
+                return;
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('tableNumber', tableNumber);
+            
+            // Show success message
+            const successMessage = document.getElementById('success-message');
+            document.getElementById('configured-table').textContent = `Table #${tableNumber}`;
+            successMessage.style.display = 'block';
+            
+            // Countdown and redirect
+            let countdown = 5;
+            const countdownElement = document.getElementById('countdown');
+            
+            const timer = setInterval(function() {
+                countdown--;
+                countdownElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    window.location.href = '/customer';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

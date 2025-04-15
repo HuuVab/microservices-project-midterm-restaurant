@@ -1,0 +1,31 @@
+<!-- chatbot.html - Updated to remove initial typing indicator -->
+<div class="chat-container">
+    <!-- Chat Bubble Button -->
+    <div class="chat-bubble" id="chat-bubble">
+        <span class="notification-badge" id="notification-badge">1</span>
+        <i class="fas fa-comment"></i>
+    </div>
+
+    <!-- Chat Box -->
+    <div class="chat-box" id="chat-box">
+        <div class="chat-header">
+            <h3>Saigon Nouveau Assistant</h3>
+            <button id="close-chat"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">
+                Hi there! I'm your restaurant assistant. How can I help you today?
+            </div>
+            <!-- No static typing indicator here! -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type your message here...">
+            <button id="send-button"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- Include these script tags -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="/static/css/chatbot.css">
+<script src="/static/js/chatbot.js"></script>
