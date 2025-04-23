@@ -9,6 +9,7 @@ import requests
 import sys
 import base64
 import time
+from datetime import datetime, timedelta
 # Add common directory to path for event modules
 sys.path.append(os.path.join(os.path.dirname(__file__), 'common'))
 from events.producer import publish_event
@@ -191,6 +192,316 @@ def get_order(order_id):
     
     finally:
         conn.close()
+def get_daily_sales_data(days=30):
+    """
+    Get daily sales data for the specified number of days
+    """
+    # Calculate date range
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=days)
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Get daily sales data
+    query = """
+        SELECT 
+            DATE(o.created_at) as date,
+            COUNT(o.id) as order_count,
+            SUM(o.total_amount) as total_amount,
+            COUNT(oi.id) as item_count
+        FROM 
+            orders o
+        LEFT JOIN 
+            order_items oi ON o.id = oi.order_id
+        WHERE 
+            o.created_at >= ? AND o.created_at <= ?
+            AND o.status != 'Cancelled'
+        GROUP BY 
+            DATE(o.created_at)
+        ORDER BY 
+            DATE(o.created_at) DESC
+    """
+    
+    cursor.execute(query, (start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')))
+    results = cursor.fetchall()
+    
+    conn.close()
+    
+    # Format results
+    report_data = []
+    for row in results:
+        report_data.append({
+            'date': row['date'],
+            'order_count': row['order_count'],
+            'total_amount': float(row['total_amount']) if row['total_amount'] else 0,
+            'item_count': row['item_count']
+        })
+    
+    return report_data
+def get_weekly_sales_data(weeks=12):
+    """
+    Get weekly sales data for the specified number of weeks
+    """
+    # Calculate date range
+    end_date = datetime.now()
+    start_date = end_date - timedelta(weeks=weeks)
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Get weekly sales data using SQLite's strftime function
+    query = """
+        SELECT 
+            strftime('%Y-W%W', o.created_at) as week,
+            COUNT(o.id) as order_count,
+            SUM(o.total_amount) as total_amount,
+            COUNT(oi.id) as item_count
+        FROM 
+            orders o
+        LEFT JOIN 
+            order_items oi ON o.id = oi.order_id
+        WHERE 
+            o.created_at >= ? AND o.created_at <= ?
+            AND o.status != 'Cancelled'
+        GROUP BY 
+            strftime('%Y-W%W', o.created_at)
+        ORDER BY 
+            strftime('%Y-W%W', o.created_at) DESC
+    """
+    
+    cursor.execute(query, (start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')))
+    results = cursor.fetchall()
+    
+    conn.close()
+    
+    # Format results
+    report_data = []
+    for row in results:
+        report_data.append({
+            'week': row['week'],
+            'order_count': row['order_count'],
+            'total_amount': float(row['total_amount']) if row['total_amount'] else 0,
+            'item_count': row['item_count']
+        })
+    
+    return report_data
+
+def get_monthly_sales_data(months=12):
+    """
+    Get monthly sales data for the specified number of months
+    """
+    # Calculate date range
+    end_date = datetime.now()
+    start_date = datetime.now().replace(day=1)
+    start_date = start_date.replace(month=start_date.month - months + 1 if start_date.month > months else start_date.month + 12 - months + 1, 
+                                    year=start_date.year if start_date.month > months else start_date.year - 1)
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Get monthly sales data using SQLite's strftime function
+    query = """
+        SELECT 
+            strftime('%Y-%m', o.created_at) as month,
+            COUNT(o.id) as order_count,
+            SUM(o.total_amount) as total_amount,
+            COUNT(oi.id) as item_count
+        FROM 
+            orders o
+        LEFT JOIN 
+            order_items oi ON o.id = oi.order_id
+        WHERE 
+            o.created_at >= ? AND o.created_at <= ?
+            AND o.status != 'Cancelled'
+        GROUP BY 
+            strftime('%Y-%m', o.created_at)
+        ORDER BY 
+            strftime('%Y-%m', o.created_at) DESC
+    """
+    
+    cursor.execute(query, (start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')))
+    results = cursor.fetchall()
+    
+    conn.close()
+    
+    # Format results
+    report_data = []
+    for row in results:
+        # Format month name for display
+        month_date = datetime.strptime(row['month'], '%Y-%m')
+        month_name = month_date.strftime('%B %Y')
+        
+        report_data.append({
+            'month': month_name,
+            'month_code': row['month'],
+            'order_count': row['order_count'],
+            'total_amount': float(row['total_amount']) if row['total_amount'] else 0,
+            'item_count': row['item_count']
+        })
+    
+    return report_data
+
+def get_popular_items_data(period='all'):
+    """
+    Get popular items data for the specified period by combining
+    data from order_items table and Menu Service API
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    try:
+        # First, get order items with quantities grouped by menu_item_id
+        query = """
+            SELECT 
+                oi.menu_item_id,
+                SUM(oi.quantity) as quantity
+            FROM 
+                order_items oi
+            JOIN 
+                orders o ON oi.order_id = o.id
+            WHERE 
+                o.status != 'Cancelled'
+        """
+        
+        # Add time period filter
+        params = []
+        if period == 'month':
+            query += " AND o.created_at >= date('now', '-1 month')"
+        elif period == 'week':
+            query += " AND o.created_at >= date('now', '-7 days')"
+        elif period == 'today':
+            query += " AND DATE(o.created_at) = DATE('now')"
+        
+        # Group and order by
+        query += """
+            GROUP BY 
+                oi.menu_item_id
+            ORDER BY 
+                quantity DESC
+        """
+        
+        cursor.execute(query, params)
+        results = cursor.fetchall()
+        
+        # Format results by getting item details from Menu Service
+        report_data = []
+        for row in results:
+            menu_item_id = row['menu_item_id']
+            quantity = row['quantity']
+            
+            try:
+                # Get item details from Menu Service
+                menu_response = requests.get(f"{MENU_SERVICE_URL}/api/menu/{menu_item_id}")
+                
+                if menu_response.status_code == 200:
+                    menu_item = menu_response.json()
+                    price = float(menu_item.get('price', 0))
+                    
+                    report_data.append({
+                        'id': menu_item_id,
+                        'name': menu_item.get('name', 'Unknown Item'),
+                        'category': menu_item.get('category', 'Uncategorized'),
+                        'quantity': quantity,
+                        'revenue': quantity * price
+                    })
+                else:
+                    logger.warning(f"Could not get details for menu item {menu_item_id}")
+                    
+                    # Include the item anyway with limited info
+                    report_data.append({
+                        'id': menu_item_id,
+                        'name': f'Item #{menu_item_id}',
+                        'category': 'Unknown',
+                        'quantity': quantity,
+                        'revenue': 0
+                    })
+                    
+            except requests.RequestException as e:
+                logger.error(f"Error connecting to Menu Service: {e}")
+                
+                # Include the item anyway with limited info
+                report_data.append({
+                    'id': menu_item_id,
+                    'name': f'Item #{menu_item_id}',
+                    'category': 'Unknown',
+                    'quantity': quantity,
+                    'revenue': 0
+                })
+                
+        return report_data
+    
+    except Exception as e:
+        logger.error(f"Error getting popular items data: {e}")
+        return []
+    
+    finally:
+        conn.close()
+
+def get_category_data(period='all'):
+    """
+    Get category sales data for the specified period by first getting
+    popular items then grouping them by category
+    """
+    try:
+        # First get the popular items data which includes category info
+        items_data = get_popular_items_data(period)
+        
+        # Group by category
+        category_data = {}
+        for item in items_data:
+            category = item.get('category', 'Unknown')
+            
+            if category not in category_data:
+                category_data[category] = {
+                    'category': category,
+                    'item_count': 0,
+                    'revenue': 0
+                }
+            
+            category_data[category]['item_count'] += item.get('quantity', 0)
+            category_data[category]['revenue'] += item.get('revenue', 0)
+        
+        # Convert to list and sort by revenue
+        report_data = list(category_data.values())
+        report_data.sort(key=lambda x: x['revenue'], reverse=True)
+        
+        return report_data
+        
+    except Exception as e:
+        logger.error(f"Error getting category data: {e}")
+        return []
+
+        
+@app.route('/api/reports/daily', methods=['GET'])
+def get_daily_sales_report():
+    days = request.args.get('days', 30, type=int)
+    report_data = get_daily_sales_data(days=days)
+    return jsonify(report_data)
+
+@app.route('/api/reports/weekly', methods=['GET'])
+def get_weekly_sales_report():
+    weeks = request.args.get('weeks', 12, type=int)
+    report_data = get_weekly_sales_data(weeks=weeks)
+    return jsonify(report_data)
+
+@app.route('/api/reports/monthly', methods=['GET'])
+def get_monthly_sales_report():
+    months = request.args.get('months', 12, type=int)
+    report_data = get_monthly_sales_data(months=months)
+    return jsonify(report_data)
+
+@app.route('/api/reports/popular-items', methods=['GET'])
+def get_popular_items_report():
+    period = request.args.get('period', 'all')
+    report_data = get_popular_items_data(period=period)
+    return jsonify(report_data)
+
+@app.route('/api/reports/category', methods=['GET'])
+def get_category_report():
+    period = request.args.get('period', 'all')
+    report_data = get_category_data(period=period)
+    return jsonify(report_data)
 
 @app.route('/api/orders', methods=['POST'])
 def create_order():
@@ -353,6 +664,86 @@ def update_order(order_id):
     
     finally:
         conn.close()
+
+@app.route('/api/order-items', methods=['GET'])
+def get_order_items():
+    order_id = request.args.get('order_id', None)
+    status = request.args.get('status', None)
+    date_filter = request.args.get('date', 'all')
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    query = """
+        SELECT oi.id, oi.order_id, oi.menu_item_id, oi.quantity, oi.notes, oi.status,
+               o.created_at, o.table_number
+        FROM order_items oi
+        JOIN orders o ON oi.order_id = o.id
+    """
+    
+    conditions = []
+    params = []
+    
+    if order_id:
+        conditions.append("oi.order_id = ?")
+        params.append(order_id)
+    
+    if status:
+        conditions.append("oi.status = ?")
+        params.append(status)
+    
+    if date_filter == 'today':
+        conditions.append("DATE(o.created_at) = DATE('now')")
+    elif date_filter == 'yesterday':
+        conditions.append("DATE(o.created_at) = DATE('now', '-1 day')")
+    elif date_filter == 'week':
+        conditions.append("DATE(o.created_at) >= DATE('now', '-7 days')")
+    elif date_filter == 'month':
+        conditions.append("strftime('%Y-%m', o.created_at) = strftime('%Y-%m', 'now')")
+    
+    if conditions:
+        query += " WHERE " + " AND ".join(conditions)
+    
+    query += " ORDER BY o.created_at DESC, oi.id ASC"
+    
+    cursor.execute(query, params)
+    items = cursor.fetchall()
+    
+    conn.close()
+    
+    # Convert to list of dictionaries for JSON serialization
+    result = []
+    for item in items:
+        item_dict = dict(item)
+        # Try to get menu item details for each order item
+        try:
+            menu_item_response = requests.get(
+                f"{MENU_SERVICE_URL}/api/menu/{item['menu_item_id']}"
+            )
+            if menu_item_response.status_code == 200:
+                menu_item = menu_item_response.json()
+                item_dict.update({
+                    'name': menu_item.get('name', 'Unknown Item'),
+                    'price': menu_item.get('price', 0),
+                    'category': menu_item.get('category', 'Uncategorized')
+                })
+            else:
+                item_dict.update({
+                    'name': 'Unknown Item',
+                    'price': 0,
+                    'category': 'Uncategorized'
+                })
+        except requests.RequestException:
+            # If we can't reach the Menu Service, add placeholder data
+            item_dict.update({
+                'name': 'Unknown Item',
+                'price': 0,
+                'category': 'Uncategorized'
+            })
+        
+        result.append(item_dict)
+    
+    return jsonify(result)
 
 @app.route('/api/order-items/<item_id>', methods=['PUT'])
 def update_order_item(item_id):
